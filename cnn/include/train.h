@@ -19,11 +19,11 @@ const int extend_flitter_size=3;//卷积核大小
 const int extend_flitter_len=3;//卷积核数
 const int extend_flitter_layerlen=4;//卷积层数
 
-const int pool_extend_flitter_stride=1;//池化步幅
-const int pool_extend_flitter_size=3;//池化矩阵大小
+const int pool_extend_flitter_stride=3;//池化步幅
+const int pool_extend_flitter_size=5;//池化矩阵大小
 const int pool_extend_flitter_len=1;//池化层数
 
-const int dropout_layerlen=56;//dropout层数
+const int dropout_layerlen=26;//dropout层数
 
 const std::string train_path="";//训练数据路径
 const std::string test_path="";//测试数据路径

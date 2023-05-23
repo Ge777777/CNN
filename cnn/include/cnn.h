@@ -59,7 +59,7 @@ public:
         for(int i=0;i<sz;i++) layers[i]->activate(now),now=layers[i]->output_;
     }
 
-    tensor<double> forwordans(){return layers.back()->output_;}
+    tensor<double> forwardans(){return layers.back()->output_;}
 
     void backward(tensor<double> &data,tensor<double> &dataout)
     {

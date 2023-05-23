@@ -57,30 +57,31 @@ struct tensor
 
     int size(){return Lim.x*Lim.y*Lim.z;}
 
-    tensor(tensor& F)
+    tensor(const tensor& F)
     {
-        data=new D[F.Lim.x*F.Lim.y*F.Lim.z];
-        memcpy(data,F.data,F.size()*sizeof(D));
+        int sz=F.Lim.x*F.Lim.y*F.Lim.z;
+        data=new D[sz];
+        memcpy(data,F.data,sz*sizeof(D));
         Lim.x = F.Lim.x,Lim.y = F.Lim.y,Lim.z = F.Lim.z;
     }
 
-    tensor<D> operator+(tensor<D> &F)
+    tensor<D> operator+(const tensor<D> &F)
     {
         tensor<D> now(*this);
-        int sz = F.size();
+        int sz=F.Lim.x*F.Lim.y*F.Lim.z;
         for(int i=0;i<sz;i++) now.data[i] += F.data[i];
         return now;
     }
 
-    tensor<D> operator-(tensor<D> &F)
+    tensor<D> operator-(const tensor<D> &F)
     {
         tensor<D> now(*this);
-        int sz = F.size();
+        int sz=F.Lim.x*F.Lim.y*F.Lim.z;
         for(int i=0;i<sz;i++) now.data[i] -= F.data[i];
         return now;
     }
 
-    tensor<D> operator*(tensor<D> &F)
+    tensor<D> operator*(const tensor<D> &F)
     {
         int xx=Lim.x,yy=Lim.y,zz=Lim.z,mm=F.Lim.y;
         tensor<double> now(xx,mm,zz);
@@ -100,7 +101,8 @@ struct tensor
         for(int y=0;y<yy;y++) now[now.id(y,x,z)]=this->data[this->id(x,y,z)];
         return now;
     }
-    
+    int id(int x,int y,int z) const{return z*(Lim.x*Lim.y)+y*(Lim.x)+x;}
+
     int id(int x,int y,int z){return z*(Lim.x*Lim.y)+y*(Lim.x)+x;}
 
     D& operator()(int x,int y,int z){return this->data[id(x,y,z)];}

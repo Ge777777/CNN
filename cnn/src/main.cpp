@@ -7,12 +7,8 @@ int main()
     for(int i=0;i<extend_flitter_layerlen;i++) cnn.add_conv_layer({basic_x,basic_y,baisc_z},extend_flitter_stride,extend_flitter_size,extend_flitter_len);
     cnn.add_relu_layer(cnn.output_size(),0);
     cnn.add_pool_layer(cnn.output_size(),pool_extend_flitter_stride,pool_extend_flitter_size);
-    cnn.add_relu_layer(cnn.output_size(),0);
-
-    for(int i=0;i<extend_flitter_layerlen;i++) cnn.add_conv_layer({basic_x,basic_y,baisc_z},extend_flitter_stride,extend_flitter_size,extend_flitter_len);
-    cnn.add_relu_layer(cnn.output_size(),0);
-    cnn.add_pool_layer(cnn.output_size(),pool_extend_flitter_stride,pool_extend_flitter_size);
     cnn.add_relu_layer(cnn.output_size(),1);
+    
     for(int i=0;i<dropout_layerlen;i++)
     {
         size_s F=cnn.output_size(),W=F;

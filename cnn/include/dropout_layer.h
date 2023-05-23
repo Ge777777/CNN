@@ -19,7 +19,7 @@ public:
     void dropout_set()
     {
         int sz=W_->size();
-        int num=del_edge_num;
+        int num=min(del_edge_num,sz/2);
         while(num--)
         {
             int x=mt_rand()%sz;
