@@ -1,3 +1,0 @@
-/ws/CNN/build/CMakeFiles/rebuild_cache.dir
-/ws/CNN/build/CMakeFiles/edit_cache.dir
-/ws/CNN/build/CMakeFiles/CNN.dir
