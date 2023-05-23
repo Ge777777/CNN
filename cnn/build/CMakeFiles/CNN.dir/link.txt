@@ -1,1 +1,0 @@
-/usr/local/bin/c++ -rdynamic CMakeFiles/CNN.dir/src/main.o -o CNN 
