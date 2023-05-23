@@ -2,5 +2,13 @@
 
 #include"tensor.h"
 #include<vector>
+#include<string.h>
 
-std::vector<tensor<double> > read_csv();
+struct case_s
+{
+    tensor<double> data,dataout;
+};
+
+std::vector<case_s> read_csv();
+
+void pre_read(std::string path);

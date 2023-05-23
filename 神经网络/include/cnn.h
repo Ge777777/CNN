@@ -6,6 +6,7 @@
 #include"dropout_layer.h"
 #include"tensor.h"
 #include"train.h"
+#include"softmax_layer.h"
 
 class CNN
 {
@@ -22,15 +23,22 @@ public:
         layers.push_back((layer_base *)layer);
     }
 
-    void add_dropout_layer(size_s F)
+    void add_dropout_layer(size_s F,size_s W)
     {
-        dropout_layer *layer=new dropout_layer(F);
+        dropout_layer *layer=new dropout_layer(F,W);
+        layer->dropout_set();
         layers.push_back((layer_base *)layer);
     }
 
-    void add_relu_layer(size_s F)
+    void add_relu_layer(size_s F,int type)
     {
-        relu_layer *layer=new relu_layer(F);
+        relu_layer *layer=new relu_layer(F,type);
+        layers.push_back((layer_base *)layer);
+    }
+
+    void add_softmax_layer(size_s F)
+    {
+        softmax_layer *layer=new softmax_layer(F);
         layers.push_back((layer_base *)layer);
     }
 
@@ -62,16 +70,9 @@ public:
         for(int i=0;i<sz;i++) layers[i]->fix_weight();
     }
 
-    double accheck(tensor<double> &dataout)
-    {
-        double sum=0;int sz=layers.back()->output_.size();
-        for(int i=0;i<sz;i++)
-        {
-            double v=layers.back()->output_[i]-dataout[i];
-            sum+=v*v;
-        }
-        return sqrt(sum)*100;
-    }
+    tensor<double> out(){return layers.back()->output_;}
+
+    ~CNN(){for(auto t:layers) delete(t);}
 
 private:
     std::vector<layer_base *> layers;

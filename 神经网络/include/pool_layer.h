@@ -7,6 +7,7 @@ const double inf=1e9;
 
 class pool_layer: public layer_base
 {
+public:
     int stride_;
     int extend_flitter_;
     pool_layer(size_s F,int stride,int extend_flitter):layer_base(F,((F-extend_flitter)/stride)+1) {stride_=stride,extend_flitter_=extend_flitter;}

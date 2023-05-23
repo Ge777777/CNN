@@ -21,5 +21,5 @@ public:
    virtual ~layer_base(){}
    virtual void activate(tensor<double> &input)=0;
    virtual void fix_weight()=0;
-   virtual void Deriv_calc(tensor<double> &delta_prev)=0;
+   virtual void Deriv_calc(tensor<double> &prev_delta)=0;
 };

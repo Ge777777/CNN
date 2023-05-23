@@ -94,15 +94,18 @@ struct tensor
     tensor<D> transpose()
     {
         int xx=Lim.x,yy=Lim.y,zz=Lim.z;
-        tensor<D> now(xx,yy,zz);
+        tensor<D> now(yy,xx,zz);
         for(int z=0;z<zz;z++)
         for(int x=0;x<xx;x++)
-        for(int y=0;y<yy;y++) now[now.id(x,y,z)]=this->data[this->id(y,x,z)];
+        for(int y=0;y<yy;y++) now[now.id(y,x,z)]=this->data[this->id(x,y,z)];
         return now;
     }
+    
     int id(int x,int y,int z){return z*(Lim.x*Lim.y)+y*(Lim.x)+x;}
 
     D& operator()(int x,int y,int z){return this->data[id(x,y,z)];}
+
+    D& get(int x,int y,int z){return (x,y,z);}
     
     D& operator[](int x){return data[x];}
     
