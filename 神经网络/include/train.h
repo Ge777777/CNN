@@ -11,6 +11,8 @@ const double up=100,down=-100;//权值初始随机范围
 
 const int basic_x=28,basic_y=28,baisc_z=1; //初始矩阵大小
 
+const int del_edge_num=1000;
+
 const int extend_flitter_size=3;//卷积核大小
 
 const int pool_extend_flitter_size=3;//池化矩阵大小

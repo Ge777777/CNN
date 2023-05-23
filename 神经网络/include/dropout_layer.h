@@ -14,6 +14,17 @@ class dropout_layer: public layer_base
         W_=random_w(N);b_=random_w(M);
     }
 
+    void dropout_set()
+    {
+        int sz=W_.size();
+        int num=del_edge_num;
+        while(num--)
+        {
+            int x=mt_rand()%sz;
+            W_[x]=0;
+        }
+    }
+
     double activate_function(double v){return v>0?v:0;}
 
     void activate(tensor<double> &input) override
@@ -28,7 +39,7 @@ class dropout_layer: public layer_base
         for(int i=0;i<sz*zz;i++) b_[i]=(b_[i]-deriv_[i]*rate);
         for(int k=0;k<zz;k++)
         for(int i=0;i<sz;i++)
-        for(int j=0;j<sz;j++) W_(i,j,k)=W_(i,j,k)-rate*input_(j,1,k)*deriv_(i,1,k);
+        for(int j=0;j<sz;j++) W_(i,j,k)=W_(i,j,k)-rate*input_(j,0,k)*deriv_(i,0,k);
     }
 
     void Deriv_calc(tensor<double> &prev_delta) override
