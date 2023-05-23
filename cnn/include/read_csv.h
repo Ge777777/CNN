@@ -13,6 +13,5 @@ struct case_s
     case_s(int x,int y,int z,int outx,int outy,int outz):data(x,y,z),dataout(outx,outy,outz){}
 };
 
-std::vector<case_s> read_csv();
+std::vector<case_s> read_csv(std::string filename = "../dataset/mnist_test.csv");
 
-void pre_read(std::string path);

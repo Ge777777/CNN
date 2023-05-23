@@ -19,11 +19,9 @@ int main()
     cnn.add_softmax_layer(cnn.output_size());
     cnn.add_softmax_layer(cnn.output_size());
 
-    pre_read(train_path);
     std::vector<case_s> T=read_csv();
     for(auto &t:T) cnn.backward(t.data,t.dataout);
 
-    pre_read(test_path);
     T=read_csv();
     int cnt=0,acnum=0;
     for(auto &t:T)

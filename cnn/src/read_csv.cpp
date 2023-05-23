@@ -1,12 +1,14 @@
 #include "../include/read_csv.h"
 
-std::vector<case_s> read_csv (const std::string& filename){
+std::vector<case_s> read_csv (std::string path){
     std::vector<case_s> dataset;
     case_s row(28,28,1,10,1,1);
-    std::ifstream file (filename);
+    std::ifstream file (path);
     if (!file.is_open()){
         std::cout << "File not found!" << std::endl;
         return dataset;
+    } else {
+        std::cout << "OK" << std::endl;
     }
     std::string line;
     if(getline(file, line)) //跳过第一行(目录行，没有意义）
@@ -32,4 +34,5 @@ std::vector<case_s> read_csv (const std::string& filename){
         }
         file.close();
     }
+    return dataset;
 }
