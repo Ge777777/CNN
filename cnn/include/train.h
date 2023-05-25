@@ -4,8 +4,7 @@
 #include<vector>
 #include<chrono>
 #include<random>
-#include<string.h>
-
+#include<cstring>
 const double rate = 0.01;//学习速率
 
 const double up=100,down=-100;//权值初始随机范围

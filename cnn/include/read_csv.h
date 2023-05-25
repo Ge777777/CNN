@@ -21,11 +21,12 @@ const int out_y = 1;
 
 const int out_z = 1;
 
-struct case_s
+struct IOData
 {
-    tensor<double> data,dataout;
-    case_s(int x,int y,int z,int outx,int outy,int outz):data(x,y,z),dataout(outx,outy,outz){}
+    tensor<double> grayPixels,outputVector;
+    IOData(int x, int y, int z, int outx, int outy, int outz): grayPixels(x, y, z), outputVector(outx, outy, outz){}
+    ~IOData() = default;
 };
 
-std::vector<case_s> read_csv(std::string filename = "../dataset/mnist_train.csv");
+std::vector<IOData> read_csv(std::string filename = "../dataset/mnist_train.csv");
 
