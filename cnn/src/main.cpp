@@ -12,19 +12,16 @@ int main()
     size_s F=cnn.output_size(),W=F;
     W.x=21;
     cnn.add_dropout_layer(F,W);
-    size_s F=cnn.output_size(),W=F;
+    F=cnn.output_size(),W=F;
     W.x=10;
     cnn.add_dropout_layer(F,W);
 
     cnn.add_relu_layer(cnn.output_size(),0);
     cnn.add_softmax_layer(cnn.output_size());
-    cnn.add_softmax_layer(cnn.output_size());
-
-    pre_read(train_path);
+    
     std::vector<case_s> T=read_csv();
     for(auto &t:T) cnn.backward(t.data,t.dataout);
 
-    pre_read(test_path);
     T=read_csv();
     int cnt=0,acnum=0;
     for(auto &t:T)

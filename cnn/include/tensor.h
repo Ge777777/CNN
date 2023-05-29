@@ -1,6 +1,7 @@
 #pragma once
 
-#include<cstring>
+#include<string.h>
+#include<iostream>
 
 struct size_s
 {
@@ -42,6 +43,7 @@ struct tensor
 
     size_s Lim;
     
+    tensor(){data=nullptr;}
     tensor(int x,int y,int z)
     {
         data=new D[x*y*z];

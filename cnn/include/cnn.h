@@ -26,7 +26,7 @@ public:
     void add_dropout_layer(size_s F,size_s W)
     {
         dropout_layer *layer=new dropout_layer(F,W);
-        layer->dropout_set();
+        layer->dropout_set(20);
         layers.push_back((layer_base *)layer);
     }
 

@@ -24,8 +24,6 @@ const int pool_extend_flitter_size=5;//池化矩阵大小
 const int pool_extend_flitter_len=1;//池化层数
 
 
-const std::string train_path="";//训练数据路径
-const std::string test_path="";//测试数据路径
 
 std::mt19937 mt_rand(std::chrono::system_clock::now().time_since_epoch().count());
 

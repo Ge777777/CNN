@@ -20,7 +20,6 @@ public:
     void activate(tensor<double> &input) override
     {
         this->input_=input;
-        tensor<double> now(input.Lim);
         int x=input.Lim.x,y=input.Lim.y,z=input.Lim.z;
         int xx=output_.Lim.x,yy=output_.Lim.y;
         for(int k=0;k<z;k++)
@@ -38,8 +37,8 @@ public:
 
     void fix_weight() override
     {
-        int sz=deriv_.size();
-        int z=input_.Lim.z,x=extend_flitter_,y=extend_flitter_;
+        int x=input_.Lim.x,y=input_.Lim.y,z=input_.Lim.z;
+        int xx=output_.Lim.x,yy=output_.Lim.y;
         for(int k=0;k<z;k++)
         for(int i=0;i<xx;i++)
         for(int j=0;j<yy;j++)
@@ -48,7 +47,7 @@ public:
             double sum=0;int sz=W_.size();
             for(int op=0;op<sz;op++)
             for(int a=aa;a<aa+extend_flitter_;a++)
-            for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)+=direv_(a,b,k)*rate;
+            for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)-=deriv_(a,b,k)*rate;
         }
     }
 
