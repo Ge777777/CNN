@@ -40,12 +40,15 @@ public:
     {
         int sz=deriv_.size();
         int z=input_.Lim.z,x=extend_flitter_,y=extend_flitter_;
-        for(int op=0;op<sz;op++)
         for(int k=0;k<z;k++)
-        for(int i=0;i<x;i++)
-        for(int j=0;j<y;j++)
+        for(int i=0;i<xx;i++)
+        for(int j=0;j<yy;j++)
         {
-            
+            int aa=i*stride_,bb=j*stride_;
+            double sum=0;int sz=W_.size();
+            for(int op=0;op<sz;op++)
+            for(int a=aa;a<aa+extend_flitter_;a++)
+            for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)+=direv_(a,b,k)*rate;
         }
     }
 

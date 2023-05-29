@@ -4,10 +4,11 @@
 #include<vector>
 #include<chrono>
 #include<random>
-#include<cstring>
+#include<string.h>
+
 const double rate = 0.01;//学习速率
 
-const double up=100,down=-100;//权值初始随机范围
+const double up=1,down=0;//权值初始随机范围
 
 const int basic_x=28,basic_y=28,baisc_z=1; //初始矩阵大小
 
@@ -22,7 +23,6 @@ const int pool_extend_flitter_stride=3;//池化步幅
 const int pool_extend_flitter_size=5;//池化矩阵大小
 const int pool_extend_flitter_len=1;//池化层数
 
-const int dropout_layerlen=26;//dropout层数
 
 const std::string train_path="";//训练数据路径
 const std::string test_path="";//测试数据路径
