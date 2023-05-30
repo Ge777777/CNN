@@ -6,24 +6,29 @@
 class softmax_layer: public layer_base
 {
 public:
+    double sum=0,maxx=0;
     softmax_layer(size_s F):layer_base(F,F){}
-    void activate(tensor<double> &input) override
+    void activate(tensor<double>& input) override
     {
-        this->input_=input;int sz=input.size();
-        for(int i=0;i<sz;i++) output_[i]=1.0/(1+exp(-input[i]));
+        this->input_=input.clone();int sz=input.size();
+        maxx = 0;sum = 0;
+        for(int i=0;i<sz;i++) maxx=max(maxx,input_[i]);
+        for(int i=0;i<sz;i++) sum+=exp(input_[i]-maxx);
+        for(int i=0;i<sz;i++) output_[i]=exp(input_[i]-maxx)/sum;
     }
 
-    double deriv(double x)
-    {
-        double sig=1.0/(1.0+exp(-x));
-        return sig*(1-sig);
-    }
+
     
     void fix_weight() override {}
 
+    double deriv_calc(int x,int y)
+    {
+        if(x==y) return output_[x]*(1-output_[x]);
+        else return -output_[x]*output_[y];
+    }
+
     void Deriv_calc(tensor<double> &prev_delta) override
     {
-        int sz=input_.size();
-        for(int i=0;i<sz;i++) deriv_[i]=prev_delta[i]*deriv(input_[i]);
+        deriv_=prev_delta.clone();
     }
 };

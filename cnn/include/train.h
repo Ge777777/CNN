@@ -6,22 +6,23 @@
 #include<random>
 #include<string.h>
 
-const double rate = 0.01;//学习速率
+double rate = 0.05;//学习速率
 
-const double up=1,down=0;//权值初始随机范围
+const double up=0.1,down=-0.1;//权值初始随机范围
 
 const int basic_x=28,basic_y=28,baisc_z=1; //初始矩阵大小
 
-const int del_edge_num=1000;//dropout随机删边次数
+const int del_edge_num=200;//dropout随机删边次数
 
 const int extend_flitter_stride=1;//卷积层步幅
 const int extend_flitter_size=3;//卷积核大小
 const int extend_flitter_len=3;//卷积核数
-const int extend_flitter_layerlen=4;//卷积层数
 
-const int pool_extend_flitter_stride=3;//池化步幅
-const int pool_extend_flitter_size=5;//池化矩阵大小
+const int pool_extend_flitter_stride=2;//池化步幅
+const int pool_extend_flitter_size=2;//池化矩阵大小
 const int pool_extend_flitter_len=1;//池化层数
+
+int datasize=0;
 
 
 

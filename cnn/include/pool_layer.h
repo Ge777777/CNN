@@ -11,7 +11,7 @@ public:
     int stride_;
     int extend_flitter_;
     pool_layer(size_s F,int stride,int extend_flitter):layer_base(F,((F-extend_flitter)/stride)+1) {stride_=stride,extend_flitter_=extend_flitter;}
-    void activate(tensor<double> &input) override
+    void activate(tensor<double>& input) override
     {
         this->input_=input;
         tensor<double> now(input.Lim);
@@ -47,4 +47,5 @@ public:
             deriv_(x,y,z)=sum;
         }
     }
+    ~pool_layer() = default;
 };

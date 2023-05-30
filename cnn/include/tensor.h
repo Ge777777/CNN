@@ -34,26 +34,32 @@ struct size_s
         return now;
     }
 };
-
+// int totnums=0;
 template<typename D>
-
 struct tensor
 {
     D* data;
 
     size_s Lim;
-    
-    tensor(){data=nullptr;}
+    //实现拷贝构造函数
+    tensor<D> clone()
+    {
+        tensor<D> now(this->Lim);
+        int sz=this->Lim.x * this->Lim.y * this->Lim.z;
+        memcpy(now.data,this->data,sz*sizeof(D));
+        return now;
+    }
+    tensor(){Lim.x=0,Lim.y=0,Lim.z=0;data=nullptr;}
     tensor(int x,int y,int z)
     {
-        data=new D[x*y*z];
         Lim=(size_s){x,y,z};
+        data=new D[x*y*z];memset(data,0,sizeof(data));
     }
 
     tensor(size_s F)
     {
         int x=F.x,y=F.y,z=F.z;
-        data=new D[x*y*z];
+        data=new D[x*y*z];memset(data,0,sizeof(data));
         Lim=F;
     }
 
@@ -66,6 +72,16 @@ struct tensor
         memcpy(data,F.data,sz*sizeof(D));
         Lim.x = F.Lim.x,Lim.y = F.Lim.y,Lim.z = F.Lim.z;
     }
+
+    tensor<D> &operator=(const tensor<D> &F) {
+        if(this->data!=nullptr) delete[] this->data;
+        int sz=F.Lim.x*F.Lim.y*F.Lim.z;
+        data=new D[sz];
+        memcpy(data,F.data,sz*sizeof(D));
+        Lim.x = F.Lim.x,Lim.y = F.Lim.y,Lim.z = F.Lim.z;
+        return *this;
+    }
+
 
     tensor<D> operator+(const tensor<D> &F)
     {
@@ -90,7 +106,7 @@ struct tensor
         for(int z=0;z<zz;z++)
         for(int i=0;i<xx;i++)
         for(int j=0;j<yy;j++)
-        for(int k=0;k<mm;k++) now.data[now.id(i,k,z)]+=this->data[id(i,j,z)]*F.data[F.id(j,k,z)];
+        for(int k=0;k<mm;k++) now(i,k,z)+=this->data[id(i,j,z)]*F.data[F.id(j,k,z)];
         return now;
     }
     
@@ -109,9 +125,14 @@ struct tensor
 
     D& operator()(int x,int y,int z){return this->data[id(x,y,z)];}
 
+    const D& operator() (int x, int y, int z) const { return this->data[id(x, y, z)]; }
+
     D& get(int x,int y,int z){return this->data[this->id(x,y,z)];}
     
     D& operator[](int x){return data[x];}
     
-    ~tensor(){delete data;}
+    ~tensor(){
+        free(data);
+        data = nullptr;
+    }
 };

@@ -7,20 +7,23 @@ using namespace std;
 class relu_layer: public layer_base
 {
 public:
-    relu_layer(size_s F,int type):layer_base(F,F){type_=type;}
-    void activate(tensor<double> &input) override
+    relu_layer(size_s F):layer_base(F,F){}
+    void activate(tensor<double>& input) override
     {
-        this->input_=input;
+//        std::cout << "relu_layer activate" << std::endl;
+        this->input_=input.clone();
         for(int i=0;i<input.Lim.x;i++)
-        for(int j=0;j<input.Lim.y;j++)
-        for(int k=0;k<input.Lim.z;k++) output_(i,j,k) = input(i,j,k)<0?0:input(i,j,k);
-        if(type_==1) output_.Lim.x*=output_.Lim.y,output_.Lim.y=1;
+            for(int j=0;j<input.Lim.y;j++)
+                for(int k=0;k<input.Lim.z;k++)
+                    output_(i,j,k) = ((input(i,j,k)<0)?0:input(i,j,k));
     }
 
     void fix_weight() override{}
 
     void Deriv_calc(tensor<double> &prev_delta) override
     {
+ //       cerr<<prev_delta.Lim.x<<" "<<prev_delta.Lim.y<<" "<<prev_delta.Lim.z<<endl;
+ //       cerr<<deriv_.Lim.x<<" "<<deriv_.Lim.y<<" "<<deriv_.Lim.z<<endl;
         for(int i=0;i<input_.Lim.x;i++)
         for(int j=0;j<input_.Lim.y;j++)
         for(int k=0;k<input_.Lim.z;k++) deriv_(i,j,k) = prev_delta(i,j,k)<0?0:prev_delta(i,j,k);

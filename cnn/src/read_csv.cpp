@@ -25,10 +25,10 @@ std::vector<case_s> read_csv(std::string path) {
 
         for (int i = 0; i < 28*28 - 1; ++i ){
             std::getline(file, cell, ',');
-            row.data[i] = std::stof(cell);
+            row.data[i] = std::stof(cell)/255;
         }
         std::getline(file, cell);
-        row.data[28 * 28 - 1] = std::stof(cell);
+        row.data[28 * 28 - 1] = std::stof(cell)/255;
         dataset.push_back(row);
         line.clear();
     }

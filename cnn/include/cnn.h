@@ -7,11 +7,12 @@
 #include"tensor.h"
 #include"train.h"
 #include"softmax_layer.h"
+#include"shape_layer.h"
 
 class CNN
 {
 public:
-    void  add_conv_layer(size_s F,int stride,int extend_flitter,int len)
+    void add_conv_layer(size_s F,int stride,int extend_flitter,int len)
     {
         conv_layer *layer=new conv_layer(F,stride,extend_flitter,len);
         layers.push_back((layer_base *)layer);
@@ -30,9 +31,9 @@ public:
         layers.push_back((layer_base *)layer);
     }
 
-    void add_relu_layer(size_s F,int type)
+    void add_relu_layer(size_s F)
     {
-        relu_layer *layer=new relu_layer(F,type);
+        relu_layer *layer=new relu_layer(F);
         layers.push_back((layer_base *)layer);
     }
 
@@ -42,13 +43,22 @@ public:
         layers.push_back((layer_base *)layer);
     }
 
+    void add_shape_layer(size_s F)
+    {
+        shape_layer *layer=new shape_layer(F);
+        layers.push_back((layer_base *)layer);
+    }
+
     size_s& output_size(){return layers.back()->output_.Lim;}
 
     int getans()
     {
         int ans=0;
         layer_base* last=layers.back();
-        for(int i=0;i<10;i++) if(last->output_(i,0,0)>last->output_(ans,0,0)) ans=i;
+        for(int i=0;i<10;i++)
+        {
+            if(last->output_(i,0,0)>last->output_(ans,0,0)) ans=i;
+        }
         return ans;
     }
 
@@ -56,17 +66,21 @@ public:
     {
         tensor<double> now=input;
         int sz=layers.size();
-        for(int i=0;i<sz;i++) layers[i]->activate(now),now=layers[i]->output_;
+        for(int i=0;i<sz;i++) {
+            layers[i]->activate(now);
+            now = layers[i]->output_;
+        }
     }
 
     tensor<double> forwardans(){return layers.back()->output_;}
-
+    #define debug printf("%s %d\n", __FUNCTION__, __LINE__)
     void backward(tensor<double> &data,tensor<double> &dataout)
     {
         forward(data);
-        tensor<double> delta=layers.back()->output_-dataout;
+        auto aut=layers.back()->output_.size();
+        tensor<double> delta(layers.back()->output_-dataout);
         int sz=layers.size();
-        for(int i=sz-1;i>=0;i--) layers[i]->Deriv_calc(i+1<sz?layers[i+1]->deriv_:delta);
+        for(int i=sz-1;i>=0;i--) layers[i]->Deriv_calc((i+1)<sz?layers[i+1]->deriv_:delta);
         for(int i=0;i<sz;i++) layers[i]->fix_weight();
     }
 

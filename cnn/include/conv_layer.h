@@ -9,16 +9,17 @@ class conv_layer: public layer_base
 public:
     int stride_;
     int extend_flitter_;
-    std::vector<tensor<double> > W_,b_;
+    std::vector<tensor<double> > W_;
 
     conv_layer(size_s F,int stride,int extend_flitter,int len): layer_base(F,(F-extend_flitter)/stride+1)
     {
         stride_=stride;extend_flitter_=extend_flitter;
-        W_=random_W(F,len);b_=random_W(F,len);
+        W_=random_W(F,len);
     }
 
-    void activate(tensor<double> &input) override
+    void activate(tensor<double>& input) override
     {
+//        std::cout << "conv_layer activate" << std::endl;
         this->input_=input;
         int x=input.Lim.x,y=input.Lim.y,z=input.Lim.z;
         int xx=output_.Lim.x,yy=output_.Lim.y;
@@ -67,4 +68,5 @@ public:
             for(int b=bb;b<bb+extend_flitter_;b++) deriv_(a,b,k)+=W_[op](a-aa,b-bb,k);
         }
     }
+    ~conv_layer() = default;
 };
