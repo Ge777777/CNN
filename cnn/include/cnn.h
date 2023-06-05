@@ -27,7 +27,7 @@ public:
     void add_dropout_layer(size_s F,size_s W)
     {
         dropout_layer *layer=new dropout_layer(F,W);
-        layer->dropout_set(20);
+        layer->dropout_set();
         layers.push_back((layer_base *)layer);
     }
 
@@ -48,6 +48,7 @@ public:
         shape_layer *layer=new shape_layer(F);
         layers.push_back((layer_base *)layer);
     }
+    CNN(){}
 
     size_s& output_size(){return layers.back()->output_.Lim;}
 
@@ -74,11 +75,13 @@ public:
 
     tensor<double> forwardans(){return layers.back()->output_;}
     #define debug printf("%s %d\n", __FUNCTION__, __LINE__)
+    #define debugs for(int i=0;i<10;i++) printf("%.6lf ",layers.back()->output_[i])
     void backward(tensor<double> &data,tensor<double> &dataout)
     {
         forward(data);
         auto aut=layers.back()->output_.size();
         tensor<double> delta(layers.back()->output_-dataout);
+//        debugs;cerr<<endl;
         int sz=layers.size();
         for(int i=sz-1;i>=0;i--) layers[i]->Deriv_calc((i+1)<sz?layers[i+1]->deriv_:delta);
         for(int i=0;i<sz;i++) layers[i]->fix_weight();

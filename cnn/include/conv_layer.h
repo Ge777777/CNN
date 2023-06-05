@@ -38,18 +38,18 @@ public:
 
     void fix_weight() override
     {
-        int x=input_.Lim.x,y=input_.Lim.y,z=input_.Lim.z;
-        int xx=output_.Lim.x,yy=output_.Lim.y;
-        for(int k=0;k<z;k++)
-        for(int i=0;i<xx;i++)
-        for(int j=0;j<yy;j++)
-        {
-            int aa=i*stride_,bb=j*stride_;
-            double sum=0;int sz=W_.size();
-            for(int op=0;op<sz;op++)
-            for(int a=aa;a<aa+extend_flitter_;a++)
-            for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)-=deriv_(a,b,k)*rate;
-        }
+        // int x=input_.Lim.x,y=input_.Lim.y,z=input_.Lim.z;
+        // int xx=output_.Lim.x,yy=output_.Lim.y;
+        // for(int k=0;k<z;k++)
+        // for(int i=0;i<xx;i++)
+        // for(int j=0;j<yy;j++)
+        // {
+        //     int aa=i*stride_,bb=j*stride_;
+        //     double sum=0;int sz=W_.size();
+        //     for(int op=0;op<sz;op++)
+        //     for(int a=aa;a<aa+extend_flitter_;a++)
+        //     for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)-=deriv_(a,b,k)*rate;
+        // }
     }
 
     void Deriv_calc(tensor<double> &prev_delta) override
@@ -65,7 +65,7 @@ public:
             double sum=0;int sz=W_.size();
             for(int op=0;op<sz;op++)
             for(int a=aa;a<aa+extend_flitter_;a++)
-            for(int b=bb;b<bb+extend_flitter_;b++) deriv_(a,b,k)+=W_[op](a-aa,b-bb,k);
+            for(int b=bb;b<bb+extend_flitter_;b++) W_[op](a-aa,b-bb,k)-=input_(a,b,k)*prev_delta(i,j,k)*rate;
         }
     }
     ~conv_layer() = default;

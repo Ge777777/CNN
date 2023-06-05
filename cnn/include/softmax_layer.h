@@ -12,7 +12,7 @@ public:
     {
         this->input_=input.clone();int sz=input.size();
         maxx = 0;sum = 0;
-        for(int i=0;i<sz;i++) maxx=max(maxx,input_[i]);
+//        for(int i=0;i<sz;i++) maxx=max(maxx,input_[i]);
         for(int i=0;i<sz;i++) sum+=exp(input_[i]-maxx);
         for(int i=0;i<sz;i++) output_[i]=exp(input_[i]-maxx)/sum;
     }

@@ -11,9 +11,10 @@ public:
     int stride_;
     int extend_flitter_;
     pool_layer(size_s F,int stride,int extend_flitter):layer_base(F,((F-extend_flitter)/stride)+1) {stride_=stride,extend_flitter_=extend_flitter;}
+    #define debug std::cerr<<maxx<<std::endl
     void activate(tensor<double>& input) override
     {
-        this->input_=input;
+        this->input_=input.clone();
         tensor<double> now(input.Lim);
         int x=input.Lim.x,y=input.Lim.y,z=input.Lim.z;
         int xx=output_.Lim.x,yy=output_.Lim.y;
@@ -22,12 +23,13 @@ public:
         for(int j=0;j<yy;j++)
         {
             int aa=i*stride_,bb=j*stride_;
-            double maxx=-inf;
+            double maxx=-10000;
             for(int a=aa;a<aa+extend_flitter_;a++)
             for(int b=bb;b<bb+extend_flitter_;b++) maxx=max(maxx,input_(a,b,k));
             output_(i,j,k)=maxx;
         }
     }
+    #undef debug
     
     void fix_weight() override {}
 

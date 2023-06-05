@@ -22,11 +22,9 @@ public:
 
     void Deriv_calc(tensor<double> &prev_delta) override
     {
- //       cerr<<prev_delta.Lim.x<<" "<<prev_delta.Lim.y<<" "<<prev_delta.Lim.z<<endl;
- //       cerr<<deriv_.Lim.x<<" "<<deriv_.Lim.y<<" "<<deriv_.Lim.z<<endl;
         for(int i=0;i<input_.Lim.x;i++)
         for(int j=0;j<input_.Lim.y;j++)
-        for(int k=0;k<input_.Lim.z;k++) deriv_(i,j,k) = prev_delta(i,j,k)<0?0:prev_delta(i,j,k);
+        for(int k=0;k<input_.Lim.z;k++) deriv_(i,j,k) = (input_(i,j,k)<0)?0:prev_delta(i,j,k);
     }
 private:
     int type_;

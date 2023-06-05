@@ -6,13 +6,13 @@
 #include<random>
 #include<string.h>
 
-double rate = 0.05;//学习速率
+double rate = 0.01;//学习速率
 
-const double up=0.1,down=-0.1;//权值初始随机范围
+const double up=1,down=-1;//权值初始随机范围
 
 const int basic_x=28,basic_y=28,baisc_z=1; //初始矩阵大小
 
-const int del_edge_num=200;//dropout随机删边次数
+const double cutrate=0.25;
 
 const int extend_flitter_stride=1;//卷积层步幅
 const int extend_flitter_size=3;//卷积核大小
@@ -44,4 +44,10 @@ std::vector<tensor<double> > random_W(size_s F,int len)
     std::vector<tensor<double> > W;
     for(int i=0;i<len;i++) W.push_back(random_w(F));
     return W;
+}
+
+tensor<bool> random_d(size_s F)
+{
+    tensor<bool> now(F);int sz=now.size();
+    return now;
 }
