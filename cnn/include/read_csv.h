@@ -27,6 +27,7 @@ struct case_s
     case_s(int x, int y, int z, int outx, int outy, int outz): data(x, y, z), dataout(outx, outy, outz){}
     ~case_s() = default;
 };
-
-std::vector<case_s> read_csv(std::string filename = "../dataset/mnist_train.csv");
+const std::string train="../dataset/mnist_train.csv";
+const std::string test="../dataset/mnist_test.csv";
+std::vector<case_s> read_csv(std::string path);
 

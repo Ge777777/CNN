@@ -36,13 +36,14 @@ public:
     void Deriv_calc(tensor<double> &prev_delta) override
     {
         int xx=output_.Lim.x,yy=output_.Lim.y;
+        memset(deriv_.data,0,sizeof(deriv_.data));
         for(int z=0;z<input_.Lim.z;z++)
         for(int x=0;x<input_.Lim.x;x++)
         for(int y=0;y<input_.Lim.y;y++)
         {
             double sum=0;
             int l=x/stride_,l2=y/stride_;
-            int r=(x-extend_flitter_-1)/stride_,r2=(y-extend_flitter_-1)/stride_;
+            int r=(x-extend_flitter_+1)/stride_,r2=(y-extend_flitter_+1)/stride_;
             for(int i=l;i<r;i++)
             for(int j=l2;j<r2;j++) if(output_(i,j,z)==input_(x,y,z)) sum+=prev_delta(i,j,z);
 

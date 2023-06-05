@@ -14,7 +14,7 @@ public:
     conv_layer(size_s F,int stride,int extend_flitter,int len): layer_base(F,(F-extend_flitter)/stride+1)
     {
         stride_=stride;extend_flitter_=extend_flitter;
-        W_=random_W(F,len);
+        W_=random_W({extend_flitter,extend_flitter,1},len);
     }
 
     void activate(tensor<double>& input) override
